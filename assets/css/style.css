@@ -1,0 +1,26 @@
+img{
+    float:left;
+}
+
+.padding-0{
+    padding-right:0;
+    padding-left:0;
+}
+.yellowtoken{
+    height: 50%;
+    width: auto;
+    top:40%;
+    right: 30%;
+    position: absolute;
+    float:left;
+    z-index: 1;
+}
+.blacktoken{
+    height: 50%;
+    right: 30%;
+    top:10%;
+    width: auto;
+    position: absolute;
+    float:left;
+    z-index: 1;
+}
