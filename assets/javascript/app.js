@@ -303,7 +303,10 @@
         $("#c").attr('disabled', false);
         $("#QuestionTimer").css("visibility", "visible");
         $("#GameMessage").text("");
-
+        vPlayerProgress=0;
+        vIgnoranceProgress=0;
+        $("#0").append($("#BlackToken"));
+        $("#0").append($("#YellowToken"));
     });
 
     $("#ResetButton").on("click", function (){
