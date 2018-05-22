@@ -196,7 +196,7 @@
                 clearInterval(qTimer.vTimerId);
                 qTimer.TimerReset();
                 gMaraton.getQuestion();
-                $("#Question").text(gMaraton.vQuestion);
+                $("#Question").html(gMaraton.vQuestion + "&nbsp;&nbsp;<strong>Valor: " + gMaraton.vKm + " km</strong>");
                 $("#aText").text(gMaraton.vAnswerA);
                 $("#bText").text(gMaraton.vAnswerB);
                 $("#cText").text(gMaraton.vAnswerC);
@@ -307,7 +307,7 @@
         gTimer.TimerTime(vStartGeneralTime);
         gTimer.TimerStart();
         gMaraton.getQuestion();
-        $("#Question").text(gMaraton.vQuestion);
+        $("#Question").html(gMaraton.vQuestion + "&nbsp;&nbsp;<strong>Valor: " + gMaraton.vKm + " km</strong>");
         $("#aText").text(gMaraton.vAnswerA);
         $("#bText").text(gMaraton.vAnswerB);
         $("#cText").text(gMaraton.vAnswerC);
@@ -356,6 +356,8 @@
     });
 
     $("#a").on("click",function(){
+        qTimer.TimerReset();
+        qTimer.TimerStart();
         if(gMaraton.vAnswer=="a"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
@@ -388,12 +390,11 @@
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         };
         gMaraton.getQuestion();
-        $("#Question").text(gMaraton.vQuestion);
+        $("#Question").html(gMaraton.vQuestion + "&nbsp;&nbsp;<strong>Valor: " + gMaraton.vKm + " km</strong>");
         $("#aText").text(gMaraton.vAnswerA);
         $("#bText").text(gMaraton.vAnswerB);
         $("#cText").text(gMaraton.vAnswerC);
-        qTimer.TimerReset();
-        qTimer.TimerStart();
+
 
         $(this).prop('checked', false);
         if(gMaraton){
@@ -403,6 +404,8 @@
     });
 
     $("#b").on("click",function(){
+        qTimer.TimerReset();
+        qTimer.TimerStart();
         if(gMaraton.vAnswer=="b"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
@@ -435,17 +438,18 @@
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         }; 
         gMaraton.getQuestion();
-        $("#Question").text(gMaraton.vQuestion);
+        $("#Question").html(gMaraton.vQuestion + "&nbsp;&nbsp;<strong>Valor: " + gMaraton.vKm + " km</strong>");
         $("#aText").text(gMaraton.vAnswerA);
         $("#bText").text(gMaraton.vAnswerB);
         $("#cText").text(gMaraton.vAnswerC);
-        qTimer.TimerReset();
-        qTimer.TimerStart();
+
 
         $(this).prop('checked', false);
     });
 
     $("#c").on("click",function(){
+        qTimer.TimerReset();
+        qTimer.TimerStart();
         if(gMaraton.vAnswer=="c"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
@@ -478,12 +482,11 @@
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         }; 
         gMaraton.getQuestion();
-        $("#Question").text(gMaraton.vQuestion);
+        $("#Question").html(gMaraton.vQuestion + "&nbsp;&nbsp;<strong>Valor: " + gMaraton.vKm + " km</strong>");
         $("#aText").text(gMaraton.vAnswerA);
         $("#bText").text(gMaraton.vAnswerB);
         $("#cText").text(gMaraton.vAnswerC);
-        qTimer.TimerReset();
-        qTimer.TimerStart();
+
         
         $(this).prop('checked', false);
     });
