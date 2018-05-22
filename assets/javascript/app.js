@@ -179,12 +179,14 @@
 
         TimerReset:function () {
             this.vTimerRunningTime=this.vTime;
+            this.TimerStop();
+            this.TimerStart();
         },
-        TimerStart:function (pHtmlObject) {
+        TimerStart:function () {
             
-            if(!this.vTimerRunning){
-                this.vTimerId = setInterval(this.TimerLeaping, 10);
-                this.vTimerRunning = true;
+            if(!qTimer.vTimerRunning){
+                qTimer.vTimerId = setInterval(qTimer.TimerLeaping, 10);
+                qTimer.vTimerRunning = true;
             }
         },
         TimerLeaping:function(){
@@ -192,13 +194,15 @@
             qTimer.vTimerRunningTime-=10;
             if (qTimer.vTimerRunningTime == 0) {
                 clearInterval(qTimer.vTimerId);
-                qTimer.TimerReset;
+                qTimer.TimerReset();
                 gMaraton.getQuestion();
                 $("#Question").text(gMaraton.vQuestion);
                 $("#aText").text(gMaraton.vAnswerA);
                 $("#bText").text(gMaraton.vAnswerB);
                 $("#cText").text(gMaraton.vAnswerC);
                 vIgnoranceProgress+=parseInt(gMaraton.vKm);
+                
+                
                 if(gMaraton.isWinner(vIgnoranceProgress)){
                     vIgnoranceProgress=48;
                     $("#GameMessage").text("Ignorance WINS!!");
