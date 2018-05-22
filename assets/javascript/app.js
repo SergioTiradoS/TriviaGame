@@ -27,7 +27,7 @@
             "a":"En la hipófisis.",
             "b":"En el páncreas.",
             "c":"En el duodeno."},
-        "Respuesta":"c",
+        "Respuesta":"b",
         "Explicación": "La insulina se produce en el páncreas.",
         "Km":2
         },
@@ -67,7 +67,7 @@
             "a":"Un paso de baile.",
             "b":"Un pie de métrica.",
             "c":"Un reptil."},
-        "Respuesta":"c",
+        "Respuesta":"b",
         "Explicación": "El dáctilo es un pie métrico compuesto por una sílaba larga seguida de dos breves.",
         "Km":1
         },
@@ -193,8 +193,26 @@
             if (qTimer.vTimerRunningTime == 0) {
                 clearInterval(qTimer.vTimerId);
                 qTimer.TimerReset;
+                gMaraton.getQuestion();
+                $("#Question").text(gMaraton.vQuestion);
+                $("#aText").text(gMaraton.vAnswerA);
+                $("#bText").text(gMaraton.vAnswerB);
+                $("#cText").text(gMaraton.vAnswerC);
+                vIgnoranceProgress+=parseInt(gMaraton.vKm);
+                if(gMaraton.isWinner(vIgnoranceProgress)){
+                    vIgnoranceProgress=48;
+                    $("#GameMessage").text("Ignorance WINS!!");
+                    gTimer.TimerStop();
+                    qTimer.TimerStop();
+                    $("#a").attr('disabled', true);
+                    $("#b").attr('disabled', true);
+                    $("#c").attr('disabled', true);
+                    $("#StartButton").prop('disabled', false);
+                    $("#ResetButton").prop('disabled', true);
+                };
+                $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
             };
-            
+
             $("#QuestionTimer").text(qTimer.msToTime(qTimer.vTimerRunningTime));
         },
         msToTime:function (duration) {
@@ -312,6 +330,7 @@
     $("#ResetButton").on("click", function (){
         if(confirm("Press a button!")){
             gTimer.TimerStop();
+            qTimer.TimerStop();
             $("#GeneralTimer").text(gTimer.msToTime(vStartGeneralTime*60*1000));
             $("#StartButton").prop('disabled', false);
             $("#ResetButton").prop('disabled', true);
