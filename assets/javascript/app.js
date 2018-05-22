@@ -192,13 +192,7 @@
             qTimer.vTimerRunningTime-=10;
             if (qTimer.vTimerRunningTime == 0) {
                 clearInterval(qTimer.vTimerId);
-                gMaraton.getQuestion();
-                $("#Question").text(gMaraton.vQuestion);
-                $("#aText").text(gMaraton.vAnswerA);
-                $("#bText").text(gMaraton.vAnswerB);
-                $("#cText").text(gMaraton.vAnswerC);
-                this.TimerTime(vStartQuestionTime);
-                this.TimerStart();
+                qTimer.TimerReset;
             };
             
             $("#QuestionTimer").text(qTimer.msToTime(qTimer.vTimerRunningTime));
@@ -216,8 +210,8 @@
             return /*hours + ":" + */minutes + ":" + seconds + "." + milliseconds + "0";
         },
         TimerStop: function() {
-            clearInterval(this.vTimerId);
-            this.vTimerRunning = false;
+            clearInterval(qTimer.vTimerId);
+            qTimer.vTimerRunning = false;
           },
 
     };
@@ -231,6 +225,7 @@
         vAnswer:"",
         vExplanation:"",
         vKm:"",
+        vMeta:48,
 
         startMarathon:function(){
             gMaraton.vQuestion="_";
@@ -251,12 +246,18 @@
             gMaraton.vAnswer=vPreguntas[vQuestionNum].Respuesta;
             gMaraton.vExplanation=vPreguntas[vQuestionNum].Explicación;
             gMaraton.vKm=vPreguntas[vQuestionNum].Km;
-
-        }
+        },
+        isWinner: function(pPlayerProgress){
+            var Winner=false;
+            if(pPlayerProgress>=gMaraton.vMeta){
+                Winner=true;
+            };
+            return Winner;
+        },
     };
 
     var vStartGeneralTime=30;
-    var vStartQuestionTime=10;
+    var vStartQuestionTime=5;
     var vPlayerProgress=0;
     var vIgnoranceProgress=0;
 
@@ -267,8 +268,15 @@
         $("#StartButton").prop('disabled', false);
         $("#ResetButton").prop('disabled', true);
         gMaraton.startMarathon();
+        $("#Question").css("visibility", "hidden");
+        $("#aText").css("visibility", "hidden");
+        $("#bText").css("visibility", "hidden");
+        $("#cText").css("visibility", "hidden");
+        $("#a").css("visibility", "hidden");
+        $("#b").css("visibility", "hidden");
+        $("#c").css("visibility", "hidden");
+        $("#QuestionTimer").css("visibility", "hidden");
 
-    
     });
     
     $("#StartButton").on("click", function(){
@@ -283,8 +291,18 @@
         $("#cText").text(gMaraton.vAnswerC);
         qTimer.TimerTime(vStartQuestionTime);
         qTimer.TimerStart();
-
-
+        $("#Question").css("visibility", "visible");
+        $("#aText").css("visibility", "visible");
+        $("#bText").css("visibility", "visible");
+        $("#cText").css("visibility", "visible");
+        $("#a").css("visibility", "visible");
+        $("#b").css("visibility", "visible");
+        $("#c").css("visibility", "visible");
+        $("#a").attr('disabled', false);
+        $("#b").attr('disabled', false);
+        $("#c").attr('disabled', false);
+        $("#QuestionTimer").css("visibility", "visible");
+        $("#GameMessage").text("");
 
     });
 
@@ -298,6 +316,15 @@
             $("#0").append($("#YellowToken"));
             vPlayerProgress=0;
             vIgnoranceProgress=0;
+            $("#Question").css("visibility", "hidden");
+            $("#aText").css("visibility", "hidden");
+            $("#bText").css("visibility", "hidden");
+            $("#cText").css("visibility", "hidden");
+            $("#a").css("visibility", "hidden");
+            $("#b").css("visibility", "hidden");
+            $("#c").css("visibility", "hidden");
+            $("#QuestionTimer").css("visibility", "hidden");
+            $("#GameMessage").text("");
         };
         
     });
@@ -306,10 +333,32 @@
         if(gMaraton.vAnswer=="a"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vPlayerProgress)){
+                vPlayerProgress=48;
+                $("#GameMessage").text("Player 1 WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#YellowToken").detach().appendTo('#'+vPlayerProgress);
         }else{
             console.log("incorrecto");
             vIgnoranceProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vIgnoranceProgress)){
+                vIgnoranceProgress=48;
+                $("#GameMessage").text("Ignorance WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         };
         gMaraton.getQuestion();
@@ -319,6 +368,11 @@
         $("#cText").text(gMaraton.vAnswerC);
         qTimer.TimerReset();
         qTimer.TimerStart();
+
+        $(this).prop('checked', false);
+        if(gMaraton){
+
+        };
         
     });
 
@@ -326,10 +380,32 @@
         if(gMaraton.vAnswer=="b"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vPlayerProgress)){
+                vPlayerProgress=48;
+                $("#GameMessage").text("Player 1 WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#YellowToken").detach().appendTo('#'+vPlayerProgress);
         }else{
             console.log("incorrecto");
             vIgnoranceProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vIgnoranceProgress)){
+                vIgnoranceProgress=48;
+                $("#GameMessage").text("Ignorance WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         }; 
         gMaraton.getQuestion();
@@ -340,16 +416,39 @@
         qTimer.TimerReset();
         qTimer.TimerStart();
 
+        $(this).prop('checked', false);
     });
 
     $("#c").on("click",function(){
         if(gMaraton.vAnswer=="c"){
             console.log("correcto");
             vPlayerProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vPlayerProgress)){
+                vPlayerProgress=48;
+                $("#GameMessage").text("Player 1 WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#YellowToken").detach().appendTo('#'+vPlayerProgress);
         }else{
             console.log("incorrecto");
             vIgnoranceProgress+=parseInt(gMaraton.vKm);
+            if(gMaraton.isWinner(vIgnoranceProgress)){
+                vIgnoranceProgress=48;
+                $("#GameMessage").text("Ignorance WINS!!");
+                gTimer.TimerStop();
+                qTimer.TimerStop();
+                $("#a").attr('disabled', true);
+                $("#b").attr('disabled', true);
+                $("#c").attr('disabled', true);
+                $("#StartButton").prop('disabled', false);
+                $("#ResetButton").prop('disabled', true);
+            };
             $("#BlackToken").detach().appendTo('#'+vIgnoranceProgress);
         }; 
         gMaraton.getQuestion();
@@ -360,6 +459,7 @@
         qTimer.TimerReset();
         qTimer.TimerStart();
         
+        $(this).prop('checked', false);
     });
 
 
